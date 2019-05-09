@@ -23,19 +23,15 @@ import beans.Libro;
 
 public class GestionLibros {
 
-    public List<Libro> obtenerLibros(int tema) {
+    public List<Libro> obtenerLibros() {
         ArrayList<Libro> libros=new ArrayList<>();
         String cad = "", aux;
 
-        try {Socket sc = new Socket("169.254.13.49", 9000);
-             PrintStream salida = new PrintStream(sc.getOutputStream());
+        try (Socket sc = new Socket("169.254.13.49", 9000);){
+
+            // PrintStream salida = new PrintStream(sc.getOutputStream());
              BufferedReader bf=new BufferedReader(new InputStreamReader(sc.getInputStream()));
-
-
-
-            salida.println(tema);
-
-
+          //  salida.println(tema);
             //vamos leyendo las líneas enviadas por el servicio y las unimos
             //en la variable cad
             while ((aux = bf.readLine()) != null) {

@@ -18,38 +18,38 @@ import modelo.GestionLibros;
 
 public class MainActivity extends Activity {
     ListView lstLibros;
-    EditText edtBuscar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         lstLibros=this.findViewById(R.id.lstLibros);
-        edtBuscar=this.findViewById(R.id.edtBuscar);
+
     }
     public void buscar(View v){
 
         AccesoLibros ac=new AccesoLibros();
-        ac.execute(edtBuscar.getText().toString());
+        ac.execute();
     }
-    private class AccesoLibros extends AsyncTask<String,Void,List<Libro>> {
+    private class AccesoLibros extends AsyncTask<Void,Void,List<Libro>> {
         @Override
         protected void onPostExecute(List<Libro> libros) {
             super.onPostExecute(libros);
             //notifica evento de exceso de libros
-            if(libros.size()>3){
+            /*if(libros.size()>3){
                 Intent in=new Intent("acciones.personales.EXCESOMATERIAL");
                 in.putExtra("capacidad",libros.size());
                 //notificación
                 MainActivity.this.sendBroadcast(in);
-            }
+            }*/
             AdaptadorLibros adp=new AdaptadorLibros(MainActivity.this,libros);
             lstLibros.setAdapter(adp);
         }
 
         @Override
-        protected List<Libro> doInBackground(String... args) {
+        protected List<Libro> doInBackground(Void... args) {
             GestionLibros glibros=new GestionLibros();
-            return glibros.obtenerLibros(Integer.parseInt(args[0]));
+            return glibros.obtenerLibros();
         }
     }
 }
